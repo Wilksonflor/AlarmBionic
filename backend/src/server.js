@@ -3,7 +3,10 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
 const mongoose = require('mongoose');
+
 const alarmRoutes = require('./routes/alarmRoutes');
+
+const Alarm = require('./model/alarmModel')
 const base = require('./mongodb/mongo')
 const port = process.env.PORT || 5000;
 

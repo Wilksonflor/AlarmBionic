@@ -6,12 +6,20 @@ const alarmSchema = new mongoose.Schema({
     required: true,
   },
   type: {
-    type: String,
+    type: Number,
+    required: true,
+  },
+  checked: {
+    type: Boolean,
     required: true,
   },
   diveceType: {
     type: Number,
     required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
