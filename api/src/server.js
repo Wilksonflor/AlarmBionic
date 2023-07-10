@@ -3,7 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
 const mongoose = require('mongoose');
-
+const alarmGenerator = require('./alarmGenerator')
 const alarmRoutes = require('./routes/alarmRoutes');
 
 const Alarm = require('./model/alarmModel')
@@ -14,6 +14,9 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
+app.get('/alarmGenerator', (req, res)=>{
+   
+})
 
 // Roteamento
 app.use('/server/alarms', alarmRoutes);
