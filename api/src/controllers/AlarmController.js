@@ -1,54 +1,44 @@
-const express = require('express');
-const axios = require('axios')
-const router = express.Router();
-const Alarm = require('../model/alarmModel');
-const alarmGenerator = require('../alarmGenerator')
+const Alarms = require("../model/alarmModel");
+const alarmRoutes = require("../routes/alarmRoutes");
+const axios = require("axios");
 
+exports.createAlarm = async (req, res) => {
 
-exports.getAll =(req, res) =>{
-    res.status(200).json({
-        status: 'sucess', alarmGenerator
-    })
-}
-router.get('/:id', (req, res) => {
-  res.send('Hello world');
-});
+  const {serial, type, checked, deviceType, device} = req.body;
 
+  try{
 
-router.post('/alarms', (req, res) => {
-
-  const alarmGenerator = () => {
+    const alarm = await Alarm.create({ serial, type, checked, deviceType, device });
+    res.status(201).json({msg: "Alarm criado"})
     setInterval(() => {
       const data = {
-        serial: '123456789',
+        serial: "123456789",
         type: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
         checked: false,
-        deviceType: Math.floor(Math.random() * (5 - 1 + 1)) + 1
-      }
-
+        deviceType: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
+      };
       console.log("SendData", data);
 
       axios
-        .post('http://localhost:8082/alarm', data)
-        .then(response => {
-          // console.log(`statusCode: ${response.status}`)
-          // console.log(response)
+        .post("http://localhost:8082/alarm", data)
+        .then((res) => {
+          console.log(`statusCode: ${res.status}`);
+          console.log(res);
         })
-        .catch(error => {
-          console.error(error)
+        .catch((error) => {
+          console.error(error);
         });
     }, 5000);
-   
-  };
+  }
+  catch(error){
+    console.log('erro:', error)
+  }
+};
 
-});
+exports.getAllAlarms = () => {};
 
+exports.getOneAlarm = async (req, res) => {};
 
-router.patch('/:id', (req,res) =>{
+exports.updateOneAlarm = async (req, res) => {};
 
-})
-
-router.delete('/:id', (req,res) =>{
-
-})
-module.exports = router;
+exports.deleteOneAlarm = async (req, res) => {};
