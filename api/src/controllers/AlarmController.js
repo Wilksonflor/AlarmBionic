@@ -26,15 +26,15 @@ exports.createAlarm = async (req, res) => {
 
       console.log("SendData", data);
 
-      axios
-        .post("http://localhost:8082/alarm", data)
-        .then((res) => {
-          console.log(`statusCode: ${res.status}`);
-          console.log(res);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      // axios
+      //   .post("http://localhost:8082/alarm", data)
+      //   .then((res) => {
+      //     console.log(`statusCode: ${res.status}`);
+      //     console.log(res);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     }, 5000);
 
     res.status(201).json({ msg: "Alarme criado com sucesso" });

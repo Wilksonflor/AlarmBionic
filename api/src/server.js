@@ -18,7 +18,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 
-// rota para os alarmes
+
 app.use("/alarms", alarmRoutes);
 
 httpServer.listen(8082, () => {
