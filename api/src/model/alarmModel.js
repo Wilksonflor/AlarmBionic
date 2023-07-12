@@ -13,7 +13,11 @@ const alarmSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  diveceType: {
+  device: {
+    type: String,
+    required: true,
+  },
+  deviceType: {
     type: Number,
     required: true,
   },
