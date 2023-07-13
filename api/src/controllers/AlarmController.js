@@ -3,10 +3,10 @@ const alarmRoutes = require("../routes/alarmRoutes");
 const axios = require("axios");
 
 exports.createAlarm = async (req, res) => {
-  
+  const { serial, type, checked, deviceType, createdAt, device } = req.body;
+  console.log("chegou do post", req.body);
 
   try {
-    const { serial, type, checked, deviceType, createdAt, device } = req.body;
     const alarm = await Alarm.create({
       serial,
       type,
@@ -15,27 +15,6 @@ exports.createAlarm = async (req, res) => {
       createdAt,
       device,
     });
-
-    setInterval(() => {
-      const data = {
-        serial: "123456789",
-        type: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
-        checked: false,
-        deviceType: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
-      };
-
-      console.log("SendData", data);
-
-      // axios
-      //   .post("http://localhost:8082/alarm", data)
-      //   .then((res) => {
-      //     console.log(`statusCode: ${res.status}`);
-      //     console.log(res);
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
-    }, 5000);
 
     res.status(201).json({ msg: "Alarme criado com sucesso" });
   } catch (error) {
