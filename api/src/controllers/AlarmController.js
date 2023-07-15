@@ -3,20 +3,18 @@ const alarmRoutes = require("../routes/alarmRoutes");
 const axios = require("axios");
 
 exports.createAlarm = async (req, res) => {
-  const { serial, type, checked, deviceType, createdAt, device } = req.body;
   console.log("chegou do post", req.body);
+  const { serial, type, checked, deviceType } = req.body;
 
   try {
     const alarm = await Alarm.create({
       serial,
       type,
       checked,
-      deviceType,
-      createdAt,
-      device,
+      deviceType
     });
 
-    res.status(201).json({ msg: "Alarme criado com sucesso" });
+    res.status(201).json({ msg: "Alarme criado com sucesso", alarm});
   } catch (error) {
     console.log("erro", error);
     res.status(500).json({ error: error.message });
@@ -26,8 +24,8 @@ exports.createAlarm = async (req, res) => {
 exports.getAllAlarms = async (req, res) => {
   console.log("chegou do get All", req.body);
   try {
-    const alarm = await Alarm.find();
-    res.status(200).json(alarm);
+    const alarms = await Alarm.find();
+    res.status(200).json(alarms);
   } catch (error) {
     console.log("erro", error);
     res.status(500).json({ error: error.message });
@@ -35,8 +33,8 @@ exports.getAllAlarms = async (req, res) => {
 };
 
 exports.getOneAlarm = async (req, res) => {
-  const { id } = req.params;
   console.log("chegou do get id", req.body);
+  const { id } = req.params;
   try {
     const alarm = await Alarm.findById(id);
     if (!alarm) {
@@ -52,12 +50,12 @@ exports.getOneAlarm = async (req, res) => {
 
 exports.updateOneAlarm = async (req, res) => {
   const { id } = req.params;
-  const { serial, type, checked, deviceType, createdAt, device } = req.body;
+  const { serial, type, checked, deviceType } = req.body;
 
   try {
     const alarm = await Alarm.findByIdAndUpdate(
       id,
-      { serial, type, checked, deviceType, createdAt, device },
+      { serial, type, checked, deviceType},
       { new: true }
     );
     if (!alarm) {

@@ -7,6 +7,8 @@ const http = require("http");
 
 const alarmRoutes = require("./routes/alarmRoutes");
 const base = require("./mongodb/mongo");
+const alarmController = require('./controllers/AlarmController.js')
+
 
 // middleware
 app.use(bodyParser.json({ limit: "50mb", extended: true }));

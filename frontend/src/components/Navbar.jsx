@@ -10,14 +10,9 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarColor01">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <Link className="nav-link">Todos os alarmes</Link>
-            </li>
-            <li className="nav-item">
-            
-            </li>
-            <li className="nav-item">
-              
-             
+              {/* <Link className="nav-link" to={"/alarmList"}>
+                Todos os alarmes
+              </Link> */}
             </li>
           </ul>
         </div>

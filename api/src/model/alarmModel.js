@@ -11,19 +11,12 @@ const alarmSchema = new mongoose.Schema({
   },
   checked: {
     type: Boolean,
-  },
-  device: {
-    type: String,
-    required: true,
+    required: false,
   },
   deviceType: {
     type: Number,
     required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
+  }
 });
 
 const Alarm = mongoose.model("alarms", alarmSchema);
