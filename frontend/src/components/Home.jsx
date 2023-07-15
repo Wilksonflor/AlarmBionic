@@ -1,5 +1,4 @@
 
-import  imagem from '../assets/imgHome.jpg'
 import './Home.module.css'
 import AlarmList from './AlarmList'
 import InserirAlarm from './InserirAlarm'

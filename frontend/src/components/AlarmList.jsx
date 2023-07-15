@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import './AlarmList.module.css';
-
+import "./AlarmList.module.css";
 
 const AlarmList = () => {
   const [alarms, setAlarms] = useState([]);
+  const [filtro, setFiltro] = useState("");
 
- 
   useEffect(() => {
     fetchAlarms();
-    const intervalId = setInterval(fetchAlarms, 5000)
+    const intervalId = setInterval(fetchAlarms, 5000);
     return () => {
       clearInterval(intervalId);
-    }
+    };
   }, []);
 
   const fetchAlarms = () => {
@@ -26,12 +25,38 @@ const AlarmList = () => {
       });
   };
 
+  const handleFiltroChange = (e) => {
+    setFiltro(e.target.value);
+  };
+
+  const filteredAlarms = filtro
+    ? alarms.filter((alarm) => alarm.deviceType === parseInt(filtro))
+    : alarms;
+
   return (
+    
     <div className="container-fluid">
       <h1 className="text-center m-5">Lista de alarmes</h1>
-    
-      <div className="container-fluid row">
-        {alarms.map((alarm) => (
+
+      <div className="container mb-5">
+      <h4>Filtro para os dispositivos</h4>
+        <select
+          className="form-select"
+          value={filtro}
+          onChange={handleFiltroChange}
+        >
+          <option value="">Todos os dispositivos</option>
+          <option value="1">Device 1</option>
+          <option value="2">Device 2</option>
+          <option value="3">Device 3</option>
+          <option value="4">Device 4</option>
+          <option value="5">Device 5</option>
+        </select>
+      </div>
+
+
+      <div className="row">
+        {filteredAlarms.map((alarm) => (
           <div className="col-lg-2 mb-3" key={alarm._id}>
             <div className="card custom-card border-success">
               <div className="card-body">
