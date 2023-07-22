@@ -9,6 +9,7 @@ const InserirAlarm = () => {
         type: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
         checked: false,
         deviceType: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
+        createdAt: new Date(),
       };
 
       console.log("SendData", data);

@@ -4,17 +4,19 @@ const axios = require("axios");
 
 exports.createAlarm = async (req, res) => {
   console.log("chegou do post", req.body);
-  const { serial, type, checked, deviceType } = req.body;
+  const { serial, type, checked, deviceType, createdAt } = req.body;
 
   try {
+    const createdAt = new Date();
     const alarm = await Alarm.create({
       serial,
       type,
       checked,
-      deviceType
+      deviceType,
+      createdAt,
     });
 
-    res.status(201).json({ msg: "Alarme criado com sucesso", alarm});
+    res.status(201).json({ msg: "Alarme criado com sucesso", alarm });
   } catch (error) {
     console.log("erro", error);
     res.status(500).json({ error: error.message });
@@ -50,12 +52,12 @@ exports.getOneAlarm = async (req, res) => {
 
 exports.updateOneAlarm = async (req, res) => {
   const { id } = req.params;
-  const { serial, type, checked, deviceType } = req.body;
+  const { serial, type, checked, deviceType, createdAt } = req.body;
 
   try {
     const alarm = await Alarm.findByIdAndUpdate(
       id,
-      { serial, type, checked, deviceType},
+      { serial, type, checked, deviceType, createdAt },
       { new: true }
     );
     if (!alarm) {
