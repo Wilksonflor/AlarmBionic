@@ -45,7 +45,7 @@ exports.getOneAlarm = async (req, res) => {
     }
     res.status(200).json(alarm);
   } catch (error) {
-    console.log("erro", error);
+    console.log("erro ao localizar alarme pelo ID", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -85,3 +85,4 @@ exports.deleteOneAlarm = async (req, res) => {
     res.status(500).json({ error: error });
   }
 };
+

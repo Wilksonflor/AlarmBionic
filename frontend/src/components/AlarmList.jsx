@@ -1,12 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./AlarmList.module.css";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import jsPDF from "jspdf";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
+
+
 
 const AlarmList = () => {
   const [alarms, setAlarms] = useState([]);
   const [filtro, setFiltro] = useState("");
 
+
+  const filteredAlarms = filtro
+    ? alarms.filter((alarm) => alarm.deviceType === parseInt(filtro))
+    : alarms;
   useEffect(() => {
     fetchAlarms();
     const intervalId = setInterval(fetchAlarms, 5000);
@@ -14,6 +24,10 @@ const AlarmList = () => {
       clearInterval(intervalId);
     };
   }, []);
+
+  // useEffect(() => {
+  //   generatePDF();
+  // }, [filtro, alarms]);
 
   const fetchAlarms = () => {
     axios
@@ -30,9 +44,71 @@ const AlarmList = () => {
     setFiltro(e.target.value);
   };
 
-  const filteredAlarms = filtro
-    ? alarms.filter((alarm) => alarm.deviceType === parseInt(filtro))
-    : alarms;
+  const generatePDF = () => {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+    // Crie um array de dados a partir dos alarmes filtrados
+    const data = filteredAlarms.map((alarm) => {
+      return [
+        { text: `${formatDate(alarm.createdAt)}`, style: "tableData" },
+        { text: ` ${alarm.serial}`, style: "tableData" },
+        { text: ` ${alarm.type}`, style: "tableData" },
+        { text: ` ${alarm.checked}`, style: "tableData" },
+        { text: ` ${alarm.deviceType}`, style: "tableData" },
+      ];
+    });
+  
+    // Defina a definição do documento PDF
+    const docDefinition = {
+      content: [
+        { text: "Relatório de Alarmes", style: "header" },
+        {
+          style: "tableExample",
+          alignment: 'center',
+          table: {
+            headerRows: 1,
+            widths: [150, 100, "*", 80, "*"],
+            body: [
+              [
+                { text: "Data e hora do alarme", style: "tableHeader" },
+                { text: "Serial", style: "tableHeader" },
+                { text: "Type", style: "tableHeader" },
+                { text: "Checked", style: "tableHeader" },
+                { text: "Device", style: "tableHeader" },
+              ],
+              ...data,
+            ],
+          },
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: "center",
+          margin: [0, 0, 0, 20],
+        },
+        tableExample: {
+          margin: [20, 20, 0, 20],
+        },
+        tableHeader: {
+          alignment: "center",
+          bold: true,
+          fontSize: 13,
+          color: "black",
+        },
+        tableData: {
+          fontSize: 11,
+        },
+      },
+    };
+  
+    // Crie o PDF
+    const pdfDoc = pdfMake.createPdf(docDefinition);
+    pdfDoc.open();
+  };
+  
+  
 
   // Colocar a data de criação dos alarmes
   const formatDate = (dateString) => {
@@ -50,6 +126,12 @@ const AlarmList = () => {
 
   return (
     <div className="container-fluid">
+      <div className="m-5">
+        <button className="btn btn-danger" onClick={generatePDF}>
+          Gerar PDF
+          <PictureAsPdfIcon />
+        </button>
+      </div>
       <h1 className="text-center m-5">Lista de alarmes</h1>
 
       <div className="container mb-5">
@@ -67,11 +149,6 @@ const AlarmList = () => {
           <option value="4">Device 4</option>
           <option value="5">Device 5</option>
         </select>
-        <button className="btnPdf">
-          Download PDF
-          <PictureAsPdfIcon />
-        </button>
-        
       </div>
 
       <div className="row">

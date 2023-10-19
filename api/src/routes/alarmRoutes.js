@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get('/', alarmController.getAllAlarms);
 router.post('/', alarmController.createAlarm);
-router.get('/alarmbyid/:id', alarmController.getOneAlarm);
+router.get('/alarmes/:id', alarmController.getOneAlarm);
+// router.get('/pdf/:id', alarmController.alarmPdf)
 
 
 module.exports = router;
